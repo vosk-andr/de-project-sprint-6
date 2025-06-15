@@ -1,5 +1,5 @@
 with user_group_log as (
-	SELECT	tri.hk_group_id, COUNT(tri.hk_user_id) cnt_added_users 
+	SELECT	tri.hk_group_id, COUNT(DISTINCT tri.hk_user_id) cnt_added_users 
 	from (
 		SELECT DISTINCT  luga.hk_group_id,  luga.hk_user_id
 		from STV2025041935__DWH.s_auth_history sah
@@ -13,7 +13,7 @@ with user_group_log as (
 user_group_messages as (
 	SELECT 
 		hk_group_id, 
-		COUNT(hk_user_id) cnt_users_in_group_with_messages
+		COUNT(DISTINCT hk_user_id) cnt_users_in_group_with_messages
 	from(
     	select 
     		lgd.hk_group_id,
