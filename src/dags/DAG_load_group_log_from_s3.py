@@ -5,12 +5,12 @@ import boto3
 import pendulum
 import vertica_python
 from airflow.hooks.base import BaseHook
-
-AWS_ACCESS_KEY_ID = "YCAJEiyNFq4wiOe_eMCMCXmQP"
-AWS_SECRET_ACCESS_KEY = "YCP1e96y4QI8OmcB4Eaf4q0nMHwhmtvGbDTgBeqS"
+from airflow.models import Variable
 
 def fetch_s3_file(bucket: str, key: str) -> str:
     """Загружает файл из S3 в локальную файловую систему"""
+    AWS_ACCESS_KEY_ID = Variable.get("aws_access_key_id")
+    AWS_SECRET_ACCESS_KEY = Variable.get("aws_secret_access_key")
     session = boto3.session.Session()
     s3_client = session.client(
         service_name='s3',
@@ -91,5 +91,6 @@ def project6():
         )
         
         begin >> fetch_task >> load_task
+
 
 sprint6_dag = project6()
